@@ -1,0 +1,3 @@
+[submodule "script/utils"]
+	path = script/utils
+	url = https://github.com/darthofcode/jsGameUtils
