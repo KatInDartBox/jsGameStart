@@ -10,7 +10,7 @@ export const handlePlayPause = (state) => {
   setBoard("play", txt);
 
   if (state.isGameOver) {
-    resetState();
+    resetState(state);
     resetBoard();
   }
   if (state.isPlaying) {
@@ -22,9 +22,9 @@ export const handlePlayPause = (state) => {
 export const initGame = (state) => {
   const play = boardElm.play;
 
-  play.addEventListener("click", () => {
+  play.addEventListener("click", async () => {
     handlePlayPause(state);
-    animation(state);
+    await window.requestAnimationFrame(animation(state));
     // console.log(`from init tool:\n`, state);
   });
 };

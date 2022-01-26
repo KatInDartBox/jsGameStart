@@ -1,3 +1,4 @@
+import { config } from "./config.js";
 import { Box } from "./utils/box.js";
 import { getImage } from "./utils/getImage.js";
 
@@ -17,21 +18,21 @@ export class Bullet extends Box {
     this.img = img;
     if (!img) {
       this.img = await getImage("../assets/SpaceShooterRedux/PNG/Lasers/laserBlue01.png");
-      state.assets.enemy = this.img;
+      state.assets.bullet = this.img;
     }
     this.width = 9 / 1.5;
     this.height = 54 / 1.5;
     this.x = playerBox.centerTop.x - this.width / 2;
     this.y = playerBox.centerTop.y - this.height;
 
-    this.velocity = { x: 0, y: -5 };
+    this.velocity = { x: 0, y: -1 * config.bulletSpeed };
   }
 
   /** @param {tState} state */
   draw(state) {
     const ctx = state.ctx;
-    ctx.strokeStyle = "white";
-    ctx.strokeRect(this.x, this.y, this.width, this.height);
+    // ctx.strokeStyle = "white";
+    // ctx.strokeRect(this.x, this.y, this.width, this.height);
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 

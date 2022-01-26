@@ -8,7 +8,7 @@ const ctx = canvas.getContext("2d");
 const canvasBox = canvas.getBoundingClientRect();
 
 /** @param {import('./state.js').tState} state */
-export const initCanvas = (state) => {
+export const initCanvas = async (state) => {
   state.canvas = canvas;
   state.ctx = ctx;
 
@@ -17,14 +17,30 @@ export const initCanvas = (state) => {
     throttle(async (e) => {
       const k = e.key;
       state.keyPress = k;
-
+      const bullet = new Bullet();
+      await bullet.init(state);
       if (state.keyPress === " ") {
-        const bullet = new Bullet();
-        await bullet.init(state);
         state.bullets.push(bullet);
       }
     }, 150)
   );
+
+  canvas.addEventListener("mousemove", (e) => {
+    state.mouse = {
+      x: e.x - canvasBox.top,
+      y: e.y - canvasBox.left,
+    };
+  });
+
+  canvas.addEventListener("click", async (e) => {
+    state.mouseClick = {
+      x: e.x - canvasBox.top,
+      y: e.y - canvasBox.left,
+    };
+    const bullet = new Bullet();
+    await bullet.init(state);
+    state.bullets.push(bullet);
+  });
 
   return {
     canvas,

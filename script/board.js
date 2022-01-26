@@ -1,6 +1,8 @@
 import { config } from "./config.js";
 import { initState } from "./state.js";
 
+/** @typedef {import('./state.js').tState} tState */
+
 const elmScore = document.querySelector("#score");
 const elmTime = document.querySelector("#time");
 const elmHP = document.querySelector("#hp");
@@ -38,5 +40,16 @@ export function resetBoard() {
   elmTime.innerText = initState.time;
   elmHP.innerText = initState.hp;
   elmEnemy.innerText = initState.enemies.length;
-  elmPlay.innerText = initState.isPlaying ? config.playSym : config.pauseSym;
+  elmPlay.innerHTML = initState.isPlaying ? config.playSym : config.pauseSym;
+}
+
+/** @param {tState} state */
+export function handleUpdateBoard(state) {
+  setBoard("score", state.score);
+  setBoard("time", parseInt(state.time / 1000, 10));
+  setBoard("hp", state.hp);
+  setBoard("enemy", state.rocks.length);
+  if (state.isGameOver) {
+    elmPlay.innerHTML = config.playSym;
+  }
 }
